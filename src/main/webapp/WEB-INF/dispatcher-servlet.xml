@@ -7,7 +7,9 @@
         ">
 
   <bean id="/index" class="com.newlecture.web.controller.IndexController" />
-  <bean id="/notice/list" class="com.newlecture.web.controller.notice.ListController" />
+  <bean id="/notice/list" class="com.newlecture.web.controller.notice.ListController" >
+    <property name="noticeService" ref="noticeService"/>
+  </bean>
   <bean id="/notice/detail" class="com.newlecture.web.controller.notice.DetailController" />
 
   <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -24,5 +26,8 @@
     <property name="suffix" value=".jsp"></property>
     <property name="order" value="2"></property>
   </bean>
+  
   <mvc:resources location="/assets/" mapping="/**"></mvc:resources>
+  
+  <bean id="noticeService" class="com.newlecture.web.service.NoticeService" />
 </beans>
