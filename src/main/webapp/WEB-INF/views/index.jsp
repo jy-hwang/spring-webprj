@@ -33,7 +33,7 @@
 
                 <li class="banner1">
                     <a href="customer/event/1">
-                        <img src="admin/board/event/1/banner-java.png" data-id="1" style="cursor: pointer;" />
+                        <img src="/images/admin/board/event/1/banner-java.png" data-id="1" style="cursor: pointer;" />
                     </a>
                 </li>
 
