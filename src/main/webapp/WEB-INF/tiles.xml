@@ -4,7 +4,7 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
   <definition name="notice.list" template="/WEB-INF/views/customer/inc/layout.jsp">
-    <put-attribute name="title" value="Tiles tutorial homepage" />
+    <put-attribute name="title" value="공지사항" />
     <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
     <put-attribute name="visual" value="/WEB-INF/views/customer/inc/visual.jsp" />
     <put-attribute name="aside" value="/WEB-INF/views/customer/inc/aside.jsp" />
