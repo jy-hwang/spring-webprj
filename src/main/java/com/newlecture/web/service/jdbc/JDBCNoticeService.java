@@ -8,13 +8,25 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.sql.DataSource;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.entity.NoticeView;
 import com.newlecture.web.service.NoticeService;
 import com.newlecture.web.util.CommonBase;
 import com.newlecture.web.util.DatabaseUtil;
 
-public class JDBCNoticeService implements NoticeService{
+public class JDBCNoticeService implements NoticeService {
+
+  private DataSource dataSource;
+
+  public void setDataSource(DataSource dataSource) {
+    this.dataSource = dataSource;
+  }
+  
+  Connection conn = null;
+  PreparedStatement pStmt = null;
+  Statement stmt = null;
+  ResultSet rSet = null;
 
   /* Admin 용 서비스 추가 */
   public int discloseNoticeAll(int[] ids) {
@@ -36,16 +48,12 @@ public class JDBCNoticeService implements NoticeService{
     }
 
     String query = " UPDATE notice SET deleted_date = NULL WHERE NO IN (" + params + ") ";
-    Connection conn = null;
-    Statement stmt = null;
 
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       stmt = conn.createStatement();
-      // pStmt.setInt(1, id);
       result = stmt.executeUpdate(query);
-
 
     } catch (SQLException e) {
       e.printStackTrace();
@@ -69,11 +77,10 @@ public class JDBCNoticeService implements NoticeService{
     int result = 0;
 
     String query = " INSERT INTO notice (writer_id, title, content, files, is_disclose) VALUES (?, ?, ?, ?, ?) ";
-    Connection conn = null;
-    PreparedStatement pStmt = null;
+
 
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setString(1, notice.getWriterId());
@@ -144,12 +151,10 @@ public class JDBCNoticeService implements NoticeService{
 
     int offset = (page - 1) * CommonBase.PAGE_SIZE;
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
+
 
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setString(1, "%" + keyword + "%");
@@ -211,12 +216,8 @@ public class JDBCNoticeService implements NoticeService{
 
     int offset = (page - 1) * CommonBase.PAGE_SIZE;
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
-
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setString(1, "%" + keyword + "%");
@@ -271,12 +272,8 @@ public class JDBCNoticeService implements NoticeService{
     int count = 0;
     String query = " SELECT count(no) as totalCount FROM notice " + " WHERE " + field + " LIKE ? ";
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
-
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setString(1, "%" + keyword + "%");
@@ -313,12 +310,8 @@ public class JDBCNoticeService implements NoticeService{
     String query =
         " SELECT no, writer_id AS writerId, title, content, hit, files, created_date AS createdDate, updated_date AS updatedDate, deleted_date AS deletedDate, is_disclose AS isDisclose FROM notice WHERE no = ? ";
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
-
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setInt(1, id);
@@ -366,10 +359,6 @@ public class JDBCNoticeService implements NoticeService{
     String query =
         " SELECT no, writer_id AS writerId, title, content, hit, files, created_date AS createdDate, updated_date AS updatedDate, deleted_date AS deletedDate, is_disclose AS isDisclose FROM notice "
             + " WHERE created_date > ( SELECT created_date FROM notice WHERE NO = ? AND deleted_date IS NOT NULL) LIMIT 1 ";
-
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
 
     try {
       conn = DatabaseUtil.getConnection();
@@ -421,12 +410,8 @@ public class JDBCNoticeService implements NoticeService{
         " SELECT no, writer_id AS writerId, title, content, hit, files, created_date AS createdDate, updated_date AS updatedDate, deleted_date AS deletedDate, is_disclose AS isDisclose FROM notice "
             + " WHERE created_date < ( SELECT created_date FROM notice WHERE NO = ? AND deleted_date IS NOT NULL) ORDER BY created_date DESC LIMIT 1 ";
 
-    Connection conn = null;
-    PreparedStatement pStmt = null;
-    ResultSet rSet = null;
-
     try {
-      conn = DatabaseUtil.getConnection();
+      conn = dataSource.getConnection();
 
       pStmt = conn.prepareStatement(query);
       pStmt.setInt(1, id);
