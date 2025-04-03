@@ -10,9 +10,6 @@
 
   <context:component-scan base-package="com.newlecture.web.controller" />
 
-  <bean id="/notice/list" class="com.newlecture.web.controller.notice.ListController" />
-  <bean id="/notice/detail" class="com.newlecture.web.controller.notice.DetailController" />
-
   <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
     <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
     <property name="order" value="1" />
