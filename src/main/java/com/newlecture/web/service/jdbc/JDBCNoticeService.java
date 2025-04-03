@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.sql.DataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.entity.NoticeView;
 import com.newlecture.web.service.NoticeService;
@@ -17,12 +18,9 @@ import com.newlecture.web.util.DatabaseUtil;
 
 public class JDBCNoticeService implements NoticeService {
 
+  @Autowired
   private DataSource dataSource;
 
-  public void setDataSource(DataSource dataSource) {
-    this.dataSource = dataSource;
-  }
-  
   Connection conn = null;
   PreparedStatement pStmt = null;
   Statement stmt = null;

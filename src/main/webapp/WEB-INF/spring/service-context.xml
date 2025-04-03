@@ -7,9 +7,9 @@
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd
         ">
-  <bean id="noticeService" class="com.newlecture.web.service.jdbc.JDBCNoticeService">
-    <property name="dataSource" ref="dataSource" />
-  </bean>
+  <context:annotation-config />
+  
+  <bean id="noticeService" class="com.newlecture.web.service.jdbc.JDBCNoticeService"/>
   <context:property-placeholder ignore-unresolvable="true" system-properties-mode="FALLBACK" />
 
   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
