@@ -1,19 +1,14 @@
 package com.newlecture.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public class IndexController implements Controller {
+@Controller
+public class IndexController {
 
-  @Override
-  public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    //ModelAndView mv = new ModelAndView("/WEB-INF/views/index.jsp");
-    ModelAndView mv = new ModelAndView("root.index");
-    mv.addObject("data", "Hello Spring MVC");
-    //mv.setViewName("");
-    return mv;
+  @RequestMapping("/index")
+  public void index() {
+
   }
 
 }
