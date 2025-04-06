@@ -17,7 +17,7 @@ public class NoticeController {
   private NoticeService noticeService;
 
   @GetMapping("list")
-  public String list(@RequestParam(name = "p", defaultValue = "1") String page) {
+  public String list(@RequestParam(value = "p", defaultValue = "1") Integer page) {
     System.out.println("page : " + page);
 
     List<NoticeView> list = noticeService.getNoticeList("title", "", 1);
