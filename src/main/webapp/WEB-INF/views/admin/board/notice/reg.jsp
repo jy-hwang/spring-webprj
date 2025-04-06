@@ -151,6 +151,15 @@
                   <td class="text-align-left text-indent text-strong text-orange" colspan="3"><input type="text" name="title" /></td>
                 </tr>
                 <tr>
+                  <th>카테고리</th>
+                  <td class="text-align-left text-indent text-strong text-orange" colspan="3"><select name="category">
+                      <option value="cate1">카테고리1</option>
+                      <option value="cate2">카테고리2</option>
+                      <option value="cate3">카테고리3</option>
+                      <option value="cate4">카테고리4</option>
+                  </select></td>
+                </tr>
+                <tr>
                   <th>첨부파일</th>
                   <td colspan="3" class="text-align-left text-indent"><input type="file" name="file" /></td>
                 </tr>
