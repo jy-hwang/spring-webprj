@@ -16,27 +16,35 @@ public class NoticeController {
   public String list() {
     return "";
   }
-  
+
   @PostMapping("reg")
   @ResponseBody
-  public String reg(String title, String content, String category) {
+  public String reg(String title, String content, String category, String[] foods, String food) {
+
+    System.out.println("==============");
+    for (String f : foods) {
+      System.out.println(f);
+    }
+
+    System.out.println("food : " + food);
+    System.out.println("==============");
     return String.format("title : %s<br> content: %s<br>,  category: %s<br>, ", title, content, category);
   }
-  
-  
+
+
   @GetMapping("reg")
   public String regPage() {
     return "admin/board/notice/reg";
   }
-  
+
   @PutMapping("edit")
   public String edit() {
     return "";
   }
-  
+
   @DeleteMapping("del")
   public String del() {
     return "";
   }
-  
+
 }
