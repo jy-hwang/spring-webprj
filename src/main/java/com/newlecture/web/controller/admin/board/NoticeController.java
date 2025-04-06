@@ -19,8 +19,14 @@ public class NoticeController {
   
   @PostMapping("reg")
   @ResponseBody
-  public String reg() {
-    return "reg";
+  public String reg(String title, String content) {
+    return String.format("title : %s<br> content: %s<br>, ", title, content);
+  }
+  
+  
+  @GetMapping("reg")
+  public String regPage() {
+    return "admin/board/notice/reg";
   }
   
   @PutMapping("edit")
