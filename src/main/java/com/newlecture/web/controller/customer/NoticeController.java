@@ -11,20 +11,20 @@ import com.newlecture.web.service.NoticeService;
 @Controller
 @RequestMapping("/customer/notice/")
 public class NoticeController {
-  
+
   @Autowired
   private NoticeService noticeService;
 
   @GetMapping("list")
-  public String list() {
-    //ModelAndView mv = new ModelAndView("");
+  public String list(String p) {
+    System.out.println("page : " + p);
+
     List<NoticeView> list = noticeService.getNoticeList("title", "", 1);
-    //mv.addObject("list", list);
     return "notice.list";
   }
 
   @GetMapping("detail")
-  public String detail(){
+  public String detail() {
     return "notice.detail";
   }
 }
