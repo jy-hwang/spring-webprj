@@ -28,26 +28,29 @@ public class NoticeController {
 
   @PostMapping("reg")
   @ResponseBody
-  public String reg(String title, String content, MultipartFile file, String category, String[] foods, String food) {// , HttpServletRequest request) {
+  public String reg(String title, String content, MultipartFile[] files, String category, String[] foods, String food) {// , HttpServletRequest request) {
 
-    long fileSize = file.getSize();
-    String fileName = file.getOriginalFilename();
-    System.out.printf("fileName:%s, fileSize:%d\n", fileName, fileSize);
+    for (MultipartFile file : files) {
+      long fileSize = file.getSize();
+      String fileName = file.getOriginalFilename();
+      System.out.printf("fileName:%s, fileSize:%d\n", fileName, fileSize);
 
-    // ServletContext ctx = request.getServletContext();
+      // ServletContext ctx = request.getServletContext();
 
-    String realPath = getRealUploadPath();
-    realPath += File.separator + fileName;
-    File saveFile = new File(realPath);
+      String realPath = getRealUploadPath();
+      realPath += File.separator + fileName;
+      File saveFile = new File(realPath);
 
-    try {
-      file.transferTo(saveFile);
-    } catch (IllegalStateException e) {
-      System.out.println(e.getMessage());
-    } catch (IOException e) {
-      System.out.println(e.getMessage());
+      try {
+        file.transferTo(saveFile);
+      } catch (IllegalStateException e) {
+        System.out.println(e.getMessage());
+      } catch (IOException e) {
+        System.out.println(e.getMessage());
+      }
+
+      System.out.printf("realPath : %s\n", realPath);
     }
-    System.out.printf("realPath : %s\n", realPath);
 
 
     System.out.println("==============");
