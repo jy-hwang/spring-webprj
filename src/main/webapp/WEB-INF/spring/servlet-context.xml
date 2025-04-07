@@ -25,6 +25,11 @@
     <property name="order" value="2"></property>
   </bean>
 
+  <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  <!-- setting maximum upload size total 300MB -->
+    <property name="maxUploadSize" value="314572800" />
+  </bean>
+
   <mvc:resources location="/assets/" mapping="/**"></mvc:resources>
   <mvc:annotation-driven>
     <mvc:message-converters> <!-- @ResponseBody로 String 처리할때 한글처리 -->
