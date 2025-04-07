@@ -23,11 +23,10 @@ public class NoticeController {
 
   @GetMapping("list")
   public String list() {
-    return "";
+    return "admin.board.notice.list";
   }
 
   @PostMapping("reg")
-  @ResponseBody
   public String reg(String title, String content, MultipartFile[] files, String category, String[] foods, String food) {// , HttpServletRequest request) {
 
     for (MultipartFile file : files) {
@@ -66,17 +65,22 @@ public class NoticeController {
 
   @GetMapping("reg")
   public String regPage() {
-    return "admin/board/notice/reg";
+    return "admin.board.notice.reg";
   }
 
+  @GetMapping("edit")
+  public String editPage() {
+    return "admin.board.notice.edit";
+  }
+  
   @PutMapping("edit")
   public String edit() {
-    return "";
+    return "admin.board.notice.edit";
   }
 
   @DeleteMapping("del")
   public String del() {
-    return "";
+    return "admin.board.notice.del";
   }
 
 
