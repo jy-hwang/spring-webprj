@@ -8,7 +8,19 @@
         https://www.springframework.org/schema/context/spring-context.xsd
         ">
 
-  <context:component-scan base-package="com.newlecture.web.controller" />
+  <context:component-scan base-package="com.newlecture.web.controller, com.newlecture.web.service" />
+  
+  <context:property-placeholder system-properties-mode="FALLBACK" />
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="org.mariadb.jdbc.Driver" />
+    <property name="url" value="${db.url}" />
+    <property name="username" value="${db.username}" />
+    <property name="password" value="${db.password}" />
+  </bean>
+
+  <bean id="template" class="org.springframework.jdbc.core.JdbcTemplate">
+    <property name="dataSource" ref="dataSource" />
+  </bean>
 
   <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
     <property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
@@ -26,7 +38,7 @@
   </bean>
 
   <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-  <!-- setting maximum upload size total 300MB -->
+    <!-- setting maximum upload size total 300MB -->
     <property name="maxUploadSize" value="314572800" />
   </bean>
 

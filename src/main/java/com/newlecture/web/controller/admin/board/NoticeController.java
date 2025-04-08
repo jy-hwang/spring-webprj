@@ -51,16 +51,6 @@ public class NoticeController {
       System.out.printf("realPath : %s\n", realPath);
     }
 
-
-    System.out.println("==============");
-    for (String f : foods) {
-      System.out.println(f);
-    }
-
-    System.out.println("food : " + food);
-    System.out.println("==============");
-    //return String.format("title : %s<br> content: %s<br>,  category: %s<br>,", title, content, category);
-    
     // 리디렉션 : list 페이지로
     return "redirect:list";
     // 포워딩 : return "admin/notice/reg";

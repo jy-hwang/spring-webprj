@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.entity.NoticeView;
@@ -17,11 +19,17 @@ import com.newlecture.web.service.NoticeService;
 import com.newlecture.web.util.CommonBase;
 import com.newlecture.web.util.DatabaseUtil;
 
-
-public class JDBCNoticeService implements NoticeService {
+@Service
+public class SpringJDBCNoticeService implements NoticeService {
 
   @Autowired
   private DataSource dataSource;
+
+  private JdbcTemplate jdbcTemplate;
+  
+  public SpringJDBCNoticeService(DataSource dataSource) {
+    jdbcTemplate = new JdbcTemplate(dataSource);
+  }
 
   Connection conn = null;
   PreparedStatement pStmt = null;
@@ -136,66 +144,14 @@ public class JDBCNoticeService implements NoticeService {
   }
 
   public List<NoticeView> getNoticeList(String field, String keyword, int page) {
-    List<NoticeView> list = new ArrayList<NoticeView>();
-
-    // field <<- title, writer_id
-
-    String query = " SELECT no, title, writerId, hit, files, createdDate, updatedDate, deletedDate, isDisclose, commentCount FROM notice_view " + " WHERE " + field
-        + " LIKE ? ORDER BY createdDate DESC LIMIT ? OFFSET ? ";
-
-    /*
-     * 1, 6, 11, 16, 21, ... => an = 1 + (page - 1) * 5 5, 10, 15, 20, ... => page * 5 pageSize 5 page 4
-     * offset = (page - 1) * pageSize = (4 - 1) * 5 = 15
-     *
-     */
 
     int offset = (page - 1) * CommonBase.PAGE_SIZE;
+    String query = " SELECT no, title, writerId, hit, files, createdDate, updatedDate, deletedDate, isDisclose, commentCount FROM notice_view " + " WHERE " + field
+        + " LIKE '%"+ keyword +"%' ORDER BY createdDate DESC LIMIT "+ CommonBase.PAGE_SIZE +" OFFSET " + offset + " ";
 
-
-
-    try {
-      conn = dataSource.getConnection();
-
-      pStmt = conn.prepareStatement(query);
-      pStmt.setString(1, "%" + keyword + "%");
-      pStmt.setInt(2, CommonBase.PAGE_SIZE);
-      pStmt.setInt(3, offset);
-
-      rSet = pStmt.executeQuery();
-
-      while (rSet.next()) {
-        int noticeNo = rSet.getInt("no");
-        String title = rSet.getString("title");
-        String writerId = rSet.getString("writerId");
-        String files = rSet.getString("files") == null ? "" : rSet.getString("files");
-        int hit = rSet.getInt("hit");
-        Date createdDate = rSet.getDate("createdDate");
-        Date updatedDate = rSet.getDate("updatedDate");
-        Date deletedDate = rSet.getDate("deletedDate");
-        boolean isDisclose = rSet.getBoolean("isDisclose");
-        int commentCount = rSet.getInt("commentCount");
-
-        NoticeView notice = new NoticeView(noticeNo, writerId, title, files, hit, createdDate, updatedDate, deletedDate, isDisclose, commentCount);
-        list.add(notice);
-      }
-
-    } catch (SQLException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (rSet != null) {
-          rSet.close();
-        }
-        if (pStmt != null) {
-          pStmt.close();
-        }
-        if (conn != null) {
-          conn.close();
-        }
-      } catch (SQLException e2) {
-        e2.printStackTrace();
-      }
-    }
+//    JdbcTemplate jdbcTemplate = new JdbcTemplate();
+//    jdbcTemplate.setDataSource(dataSource);
+    List<NoticeView> list = jdbcTemplate.query(query, new BeanPropertyRowMapper(NoticeView.class));
 
     return list;
   }
