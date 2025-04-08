@@ -59,7 +59,11 @@ public class NoticeController {
 
     System.out.println("food : " + food);
     System.out.println("==============");
-    return String.format("title : %s<br> content: %s<br>,  category: %s<br>,", title, content, category);
+    //return String.format("title : %s<br> content: %s<br>,  category: %s<br>,", title, content, category);
+    
+    // 리디렉션 : list 페이지로
+    return "redirect:list";
+    // 포워딩 : return "admin/notice/reg";
   }
 
 
